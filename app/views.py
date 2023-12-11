@@ -3,7 +3,7 @@
 from flask import Blueprint
 from flask_restful import Api, Resource
 from flask import request, jsonify
-from .models import db, User, Job, RelationshipUserJob
+from .models import db, User, Job, Relationship_user_job
 
 api_bp = Blueprint('api', __name__)
 api = Api(api_bp)
@@ -58,27 +58,27 @@ class JobResource(Resource):
         db.session.commit()
         return jsonify({'message': 'Job deleted successfully'})
 
-class RelationshipUserJobResource(Resource):
+class Relationship_user_jobResource(Resource):
     def get(self, relationship_id):
-        relationship = RelationshipUserJob.query.get_or_404(relationship_id)
+        relationship = Relationship_user_job.query.get_or_404(relationship_id)
         return jsonify({'relationship': relationship.to_dict()})
 
     def post(self):
         data = request.get_json()
-        new_relationship = RelationshipUserJob(**data)
+        new_relationship = Relationship_user_job(**data)
         db.session.add(new_relationship)
         db.session.commit()
         return jsonify({'message': 'Relationship created successfully'}), 201
 
     def put(self, relationship_id):
-        relationship = RelationshipUserJob.query.get_or_404(relationship_id)
+        relationship = Relationship_user_job.query.get_or_404(relationship_id)
         data = request.get_json()
         relationship.update(data)
         db.session.commit()
         return jsonify({'message': 'Relationship updated successfully'})
 
     def delete(self, relationship_id):
-        relationship = RelationshipUserJob.query.get_or_404(relationship_id)
+        relationship = Relationship_user_job.query.get_or_404(relationship_id)
         db.session.delete(relationship)
         db.session.commit()
         return jsonify({'message': 'Relationship deleted successfully'})
@@ -87,4 +87,4 @@ class RelationshipUserJobResource(Resource):
 # vistas para cada recurso
 api.add_resource(UserResource, '/users/<int:user_id>')
 api.add_resource(JobResource, '/jobs/<int:job_id>')
-api.add_resource(RelationshipUserJobResource, '/relationships/<int:relationship_id>')
+api.add_resource(Relationship_user_jobResource, '/relationships/<int:relationship_id>')

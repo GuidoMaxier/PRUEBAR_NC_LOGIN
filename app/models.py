@@ -23,40 +23,66 @@ class User(db.Model, UserMixin):
     
 
 #############################################################
+import datetime 
+from flask_sqlalchemy import SQLAlchemy
 
-class Job(db.Model):
+class Service(db.Model):
+    
     id = db.Column(db.Integer, primary_key=True)
-    description = db.Column(db.String(255))
-    is_active = db.Column(db.Boolean, default=True)
+    id_user = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    id_relationship_user_job = db.Column(db.Integer, db.ForeignKey('relationship_user_job.id', use_alter=True), nullable=False)
+    description = db.Column(db.String(255), nullable=False)
+    date_create = db.Column(db.Date, default=datetime, nullable=False)
+    date_start = db.Column(db.Date, default=datetime, nullable=False)
+    date_end = db.Column(db.Date, default=datetime, nullable=False)
+    attention_time = db.Column(db.Date, default=datetime, nullable=False)
+    id_assessment = db.Column(db.Integer, db.ForeignKey('assessment.id'), nullable=False)
+    state = db.Column(db.Enum('pending', 'in_progress', 'completed'), nullable=False)
+    
+    def _repr_(self):
+        return f"<Service {self.description}>"
+    
 
-class RelationshipUserJob(db.Model):
+class Relationship_user_job(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_user = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     id_job = db.Column(db.Integer, db.ForeignKey('job.id'), nullable=False)
 
-class Service(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    id_user = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    id_relationship_user_job = db.Column(db.Integer, db.ForeignKey('relationship_user_job.id'), nullable=False)
-    description = db.Column(db.String(255))
-    date_create = db.Column(db.Date)
-    date_start = db.Column(db.Date)
-    date_end = db.Column(db.Date)
-    id_assessment = db.Column(db.Integer, db.ForeignKey('assessment.id'))
-    state = db.Column(db.Enum('Pending', 'InProgress', 'Completed'))
+    def __repr__(self):
+        return f"<Relationship_user_job {self.id}>"
 
-class JobDetail(db.Model):
+
+
+class Job(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String(255), nullable=False)
+    is_active = db.Column(db.Boolean, default=True)
+
+    def __repr__(self):
+        return f"<Job {self.description}>"
+    
+
+class Job_detail(db.Model):
+    
     id = db.Column(db.Integer, primary_key=True)
     id_relationship_user_job = db.Column(db.Integer, db.ForeignKey('relationship_user_job.id'), nullable=False)
-    description = db.Column(db.String(255))
-    day = db.Column(db.Time)
-    time = db.Column(db.Time)
+    description = db.Column(db.String(255), nullable=False)
+    attention_day = db.Column(db.Date, default=datetime, nullable=False)
+    attention_time = db.Column(db.Date, default=datetime, nullable=False)
+    
+    
+    def _repr_(self):
+        return f"<Job_detail {self.id}>"    
 
 class Assessment(db.Model):
+    
     id = db.Column(db.Integer, primary_key=True)
-    id_service = db.Column(db.Integer, db.ForeignKey('service.id'), nullable=False)
-    assessment_user_client = db.Column(db.Float)
-    comment_user_client = db.Column(db.String(255))
-    assessment_user_provider = db.Column(db.Float)
-    comment_user_provider = db.Column(db.String(255))
-    state = db.Column(db.Enum('Pending', 'Approved', 'Rejected'))
+    id_service = db.Column(db.Integer, db.ForeignKey('service.id', use_alter=True), nullable=False)
+    assessment_user_client = db.Column(db.Float, nullable=False)
+    comment_user_client = db.Column(db.Float, nullable=False)
+    assessment_user_provider = db.Column(db.Float, nullable=False)
+    comment_user_provier = db.Column(db.Float, nullable=False)
+    state = db.Column(db.Enum('canceled', 'evaluate', 'aproved'), default='aproved', nullable=False)
+    
+    def _repr_(self):
+        return f"<Assessment {self.id}>"    
