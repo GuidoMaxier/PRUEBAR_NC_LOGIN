@@ -1,0 +1,51 @@
+/// Estructura ....
+
++ PRUEBA_NC_LOGIN
+  |_ app
+    |_ __init__.py
+    |_ models.py
+    |_ views.py
+    |_ auth
+      |_ __init__.py
+      |_ views.py
+    |_ config.py
+    |_ extensions.py
+  |_ migrations
+  |_ run.py
+
+/// 
+pip install Flask
+pip install Flask-SQLAlchemy
+pip install Flask-Migrate
+pip install Flask-Marshmallow
+pip install Flask-Login 
+pip install pymysql
+pip install flask-restful
+
+
+// Para el Entorno Virtual
+pip install virtualenv
+virtualenv venv
+source venv/Scripts/activate
+
+// Para instalar facil y rapido
+pip install -r requirements.txt
+
+// Para Actualizar - 
+pip freeze > requirements.txt
+
+////// MIGRATE /////////
+(INICIAR MIGRACION A LA BASE DE DATOS - LA PRIMERA)
+flask db init
+
+(COMENTARIO SOBRE LA MIGRACION)
+flask db migrate -m "PRIMERA MIGRACION"   
+
+(APLICAR LA MIGRACION)
+flask db upgrade  
+
+(REVERS A UNA VERSION ANTERIOR)
+flask db downgrade
+
+(HISTORIAL)
+flask db history
