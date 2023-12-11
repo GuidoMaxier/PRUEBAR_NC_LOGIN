@@ -21,6 +21,8 @@ pip install Flask-Marshmallow
 pip install Flask-Login 
 pip install pymysql
 pip install flask-restful
+pip install marshmallow-sqlalchemy
+
 
 
 // Para el Entorno Virtual
