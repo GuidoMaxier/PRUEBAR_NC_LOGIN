@@ -22,6 +22,8 @@ pip install Flask-Login
 pip install pymysql
 pip install flask-restful
 pip install marshmallow-sqlalchemy
+pip install flask-cors
+
 
 
 

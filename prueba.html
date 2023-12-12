@@ -61,7 +61,7 @@
         var password = $('#regPassword').val();
 
         $.ajax({
-            url: 'http://127.0.0.1:5500/api/register',
+            url: 'http://127.0.0.1:5000/api/register',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({username: username, email: email, password: password}),
@@ -79,7 +79,7 @@
         var password = $('#loginPassword').val();
 
         $.ajax({
-            url: 'http://127.0.0.1:5500/api/login',
+            url: 'http://127.0.0.1:5000/api/login',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({username: username, password: password}),
