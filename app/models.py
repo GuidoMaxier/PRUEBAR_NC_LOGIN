@@ -6,9 +6,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
+    email = db.Column(db.String(255), unique=True, nullable=False)
     password_hash = db.Column(db.String(512), nullable=False)
+    first_name = db.Column(db.String(255))
+    last_name = db.Column(db.String(255))
+    location = db.Column(db.String(255))
+    is_active = db.Column(db.Boolean, default=True) 
 
     def set_password(self, password):
         print(password)
@@ -20,7 +23,7 @@ class User(db.Model, UserMixin):
     
     def get_id(self):
         return str(self.id)
-    
+       
 
 #############################################################
 import datetime 
@@ -52,7 +55,6 @@ class Relationship_user_job(db.Model):
         return f"<Relationship_user_job {self.id}>"
 
 
-
 class Job(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(255), nullable=False)
@@ -62,8 +64,7 @@ class Job(db.Model):
         return f"<Job {self.description}>"
     
 
-class Job_detail(db.Model):
-    
+class Job_detail(db.Model):   
     id = db.Column(db.Integer, primary_key=True)
     id_relationship_user_job = db.Column(db.Integer, db.ForeignKey('relationship_user_job.id'), nullable=False)
     description = db.Column(db.String(255), nullable=False)
